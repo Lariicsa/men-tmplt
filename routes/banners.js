@@ -1,7 +1,9 @@
 const express = require('express');
 const BannerService = require('../services/banner');
 const {
-  createBannerSchema
+  bannerIdSchema,
+  createBannerSchema,
+  updateBannerSchema
 } = require('../utils/schemas/banner')
 
 
@@ -16,7 +18,6 @@ function bannerEndpoint(app) {
 
   router.get('/', async function (req, res, next) {
     try {
-
       res.status(200)
       res.send('<h2>Banner service is running</h2>')
     } catch (err) {
@@ -30,10 +31,8 @@ function bannerEndpoint(app) {
 
   router.get('/slides', async function (req, res, next) {
     const { tags } = req.query;
-
     try {
       const slides = await bannerService.getSlides({ tags });
-
       res.status(200).json({
         data: slides,
         message: 'Slides Listed'
@@ -66,28 +65,25 @@ function bannerEndpoint(app) {
     }
   });
 
+  router.put('/slide/:slideId', validationHandler({ slideId: bannerIdSchema }, 'params'), validationHandler(updateBannerSchema), async function (req, res, next) {
+    const { slideId } = req.params;
+    const { body: slide } = req;
 
-  // router.post('/api/cms', validationHandler(createContactSchema), async function (req, res, next) {
+    try {
+      const updatedSlideId = await bannerService.updateSlide({
+        slideId,
+        slide
+      });
 
-  //   const { body: contact } = req;
-  //   try {
-  //     const createdContact = await bannerService.createContact({ contact });
-  //     console.log('contact', contact);
+      res.status(200).json({
+        data: updatedSlideId,
+        message: 'Slide updated'
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
 
-  //     res.status(201).json({
-  //       data: createdContact,
-  //       message: 'Contact info Sent'
-  //     });
-  //   } catch (err) {
-  //     console.log('showed error', err);
-  //     res.json({
-  //       error: err
-  //     });
-  //     next(err);
-  //   }
-
-
-  // });
 
 }
 

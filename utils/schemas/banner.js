@@ -14,7 +14,15 @@ const createBannerSchema = {
   link: bannerLink
 }
 
+const updateBannerSchema = {
+  name: bannerName,
+  text: bannerText,
+  imagePath: bannerImageUrl,
+  link: bannerLink
+}
+
 module.exports = {
   bannerIdSchema,
   createBannerSchema,
+  updateBannerSchema
 }
