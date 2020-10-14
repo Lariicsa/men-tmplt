@@ -84,6 +84,20 @@ function bannerEndpoint(app) {
     }
   });
 
+  router.delete('/slide/:slideId', validationHandler({ slideId: bannerIdSchema }, 'params'), async function (req, res, next) {
+    const { slideId } = req.params;
+    try {
+      const deletedSlideId = await bannerService.deleteSlide({ slideId });
+
+      res.status(200).json({
+        data: deletedSlideId,
+        message: 'Slide deleted'
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
 
 }
 
