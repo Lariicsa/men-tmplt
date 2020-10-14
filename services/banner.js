@@ -13,9 +13,24 @@ class BannerService {
     return slides || []
   }
 
-  async createSlide({ contact }) {
+  async getSlide({ slideId }) {
+    const slide = await this.mongoDB.get(this.collection, slideId);
+    return slide || {};
+  }
+
+  async createSlide({ slide }) {
     const createdSlide = await this.mongoDB.create(this.collection, slide);
     return createdSlide;
+  }
+
+  async updateSlide({slideId, slide}) {
+    const updatedSlideId = await this.mongoDB.update(this.collection, slideId, slide)
+    return updatedSlideId || {}
+  }
+
+  async deleteSlide({ slideId }) {
+    const deletedSlideId = await this.mongoDB.delete(this.collection, slideId);
+    return deletedSlideId;
   }
 }
 

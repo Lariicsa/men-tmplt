@@ -17,6 +17,7 @@ class ContactsService {
     const createdContact = await this.mongoDB.create(this.collection, contact);
     return createdContact;
   }
+  
 }
 
 module.exports = ContactsService
