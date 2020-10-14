@@ -10,7 +10,7 @@ const validationHandler = require('../utils/middlewares/validationHandler')
 
 function contactsApi(app) {
   const router = express.Router();
-  app.use('/', router);
+  app.use('/api', router);
 
   const contactsService = new ContactsService();
 
@@ -28,7 +28,7 @@ function contactsApi(app) {
     }
   });
 
-  router.get('/api/contacts', async function (req, res, next) {
+  router.get('/contacts', async function (req, res, next) {
     const { tags } = req.query;
 
     try {

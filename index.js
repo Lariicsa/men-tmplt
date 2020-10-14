@@ -2,7 +2,11 @@ const express = require('express');
 const cors = require('cors')
 const app = express();
 const { config } = require('./config/index');
-const contactsApi = require('./routes/contacts.js');
+const router = express.Router();
+  
+const contactsApi = require('./routes/contacts');
+const bannerEndpoint = require('./routes/banners')
+
 const { logErrors, errorHandler, wrapErrors } = require('./utils/middlewares/errorHandlers.js')
 const notFoundHandler = require('./utils/middlewares/notFoundHandler.js')
 
@@ -24,7 +28,11 @@ const allowCrossDomain = function (req, res, next) {
 app.use(express.json());
 app.options('*', cors())
 app.use(allowCrossDomain)
+
 contactsApi(app);
+
+bannerEndpoint(app);
+
 
 
 //catch 404 err
