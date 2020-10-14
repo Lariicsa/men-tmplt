@@ -18,7 +18,7 @@ function bannerEndpoint(app) {
     try {
 
       res.status(200)
-      res.send('<h2>Otro service</h2>')
+      res.send('<h2>Banner service is running</h2>')
     } catch (err) {
       res.json({
         error: err
@@ -28,31 +28,30 @@ function bannerEndpoint(app) {
     }
   });
 
-  // router.get('/api/banner', async function (req, res, next) {
-  //   const { tags } = req.query;
+  router.get('/slides', async function (req, res, next) {
+    const { tags } = req.query;
 
-  //   try {
-  //     const contacts = await BannerService.getContacts({ tags });
+    try {
+      const slides = await bannerService.getSlides({ tags });
 
-  //     res.status(200).json({
-  //       data: contacts,
-  //       message: 'Contacts Listed'
-  //     });
-  //   } catch (err) {
-  //     res.json({
-  //       error: err
-  //     });
-  //     next(err);
-  //   }
-  // });
+      res.status(200).json({
+        data: slides,
+        message: 'Slides Listed'
+      });
+    } catch (err) {
+      res.json({
+        error: err
+      });
+      next(err);
+    }
+  });
 
 
-  router.post('/addslide', validationHandler(createBannerSchema), async function (req, res, next) {
+  router.post('/slide', validationHandler(createBannerSchema), async function (req, res, next) {
     const { body: slide } = req;
     try {
       const createdSlide = await bannerService.createSlide({ slide });
       console.log('slide', slide);
-
 
       res.status(201).json({
         data: createdSlide,

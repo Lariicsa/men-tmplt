@@ -30,7 +30,6 @@ app.options('*', cors())
 app.use(allowCrossDomain)
 
 contactsApi(app);
-
 bannerEndpoint(app);
 
 
